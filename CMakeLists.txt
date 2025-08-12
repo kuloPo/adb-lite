@@ -42,7 +42,11 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(asio)
 add_library(asio INTERFACE)
-target_compile_options(asio INTERFACE -DASIO_STANDALONE -DASIO_NO_DEPRECATED)
+target_compile_definitions(asio INTERFACE
+  ASIO_STANDALONE
+  ASIO_NO_DEPRECATED
+  $<$<CONFIG:Debug>:ASIO_DISABLE_BUFFER_DEBUGGING>
+)
 target_include_directories(asio INTERFACE ${asio_SOURCE_DIR}/asio/include)
 if (MSVC)
   target_compile_options(asio INTERFACE -D_WIN32_WINNT=0x0601)
